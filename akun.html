@@ -302,6 +302,52 @@
             </div>
         </div>
     </div>
+<!-- Modal Info Bot -->
+<div id="botInfoModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header" style="background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%)">
+            <h3><i class="fas fa-robot"></i> Taher AI Assistant</h3>
+            <button class="close-btn" onclick="document.getElementById('botInfoModal').classList.add('hidden')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 50px; color: #4dabf7; margin-bottom: 10px;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>🤖 Taher Bot</h3>
+                <p>Versi 0.1</p>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <h4><i class="fas fa-cogs"></i> Fitur Bot:</h4>
+                <ul style="padding-left: 20px;">
+                    <li>Percakapan cerdas</li>
+                    <li>Jawaban pertanyaan umum</li>
+                    <li>Informasi aplikasi</li>
+                    <li>Rekomendasi</li>
+                </ul>
+            </div>
+            
+            <div style="background: #e9f5f3; padding: 15px; border-radius: 8px;">
+                <h4><i class="fas fa-lightbulb"></i> Contoh Pertanyaan:</h4>
+                <p>• "Halo"<br>
+                   • "Apa kabar?"<br>
+                   • "Siapa namamu?"<br>
+                   • "Fitur apa saja?"<br>
+                   • "Bagaimana cara pakai?"</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn" onclick="document.getElementById('botInfoModal').classList.add('hidden')" 
+                    style="background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%)">
+                Mulai Chat
+            </button>
+        </div>
+    </div>
+</div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
