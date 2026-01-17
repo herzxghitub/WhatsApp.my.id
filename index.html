@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEKARANG LU GA BISA AMBIL SOURCE CODE NYA 🤣</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+/* MAU AMBIL SOURCE? TIDAK BISA BROW🤣 MINIMAL CREDIT */
+/* TERUS LU MAU APAIN */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Helvetica, sans-serif;
+        }
+        
+        .loading-container {
+            text-align: center;
+            color: white;
+        }
+        
+        .whatsapp-logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .loading-text {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            animation: loading 2s ease-in-out;
+            transform-origin: left;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes loading {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="whatsapp-logo">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="loading-text">WhatsApp Lite</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <script>
+       
+        const hasSeenLoading = localStorage.getItem('whatsappLite_hasSeenLoading');
+        
+   
+        setTimeout(() => {
+            if (hasSeenLoading) {
+                // Langsung ke akun.html (sudah pernah loading)
+                window.location.href = "akun.html";
+            } else {
+                // Set flag dan redirect (pertama kali)
+                localStorage.setItem('whatsappLite_hasSeenLoading', 'true');
+                window.location.href = "akun.html";
+            }
+        }, 2000);
+    
+        window.clearLoadingFlag = function() {
+            localStorage.removeItem('whatsappLite_hasSeenLoading');
+        };
+    </script>
+</body>
+</html>

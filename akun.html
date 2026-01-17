@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Lite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Halaman Login/Registrasi -->
+    <div id="authPage" class="auth-page">
+        <div class="auth-container">
+            <div class="auth-header">
+                <i class="fab fa-whatsapp"></i>
+                <h1>WhatsApp Lite</h1>
+                <p>Masuk atau buat akun baru</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="loginTab">Masuk</button>
+                <button class="tab-btn" id="registerTab">Daftar</button>
+            </div>
+            
+            <!-- Form Login -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <input type="text" id="loginUsername" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-btn">Masuk ke WhatsApp</button>
+            </form>
+            
+            <!-- Form Registrasi -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <input type="text" id="registerUsername" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="registerPassword" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirmPassword" placeholder="Konfirmasi Password" required>
+                </div>
+                <button type="submit" class="auth-btn">Buat Akun</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Dengan masuk, Anda menyetujui Ketentuan Layanan kami</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Halaman Chat (Awalnya Disembunyikan) -->
+    <div id="chatPage" class="chat-page hidden">
+        <!-- Header Chat -->
+        <header class="chat-header">
+            <div class="header-left">
+                <div class="user-avatar" id="currentUserAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="currentUsername"></h3>
+                    <p id="currentStatus">online</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="dropdown">
+                    <button class="icon-btn" id="menuBtn">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" id="profileBtn"><i class="fas fa-user"></i> Profil</a>
+                        <a href="#" id="settingsBtn"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="ownerBtn" class="hidden"><i class="fas fa-shield-alt"></i> Owner</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Halaman Banned -->
+        <div id="bannedPage" class="banned-page hidden">
+            <div class="banned-container">
+                <div class="banned-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <h1>AKUN DIBLOKIR</h1>
+                <p>Akun Anda telah diblokir karena melanggar ketentuan kami.</p>
+                <p class="banned-reason" id="bannedReason">Alasan: Mengandung kata terlarang</p>
+                <div class="appeal-section">
+                    <p>Silakan laporkan masalah ini di bawah jika Anda merasa ini kesalahan:</p>
+                    <textarea id="appealMessage" placeholder="Ketik pesan banding Anda di sini..."></textarea>
+                    <button id="sendAppealBtn" class="appeal-btn">Kirim Laporan</button>
+                    <p class="appeal-note">Pesan akan dikirim ke admin untuk ditinjau</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel Owner (Hanya untuk Owner) -->
+        <div id="ownerPanel" class="owner-panel hidden">
+            <div class="owner-header">
+                <h2><i class="fas fa-shield-alt"></i> Owner Control Panel</h2>
+                <button id="closeOwnerBtn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="owner-section">
+                <h3><i class="fas fa-user-slash"></i> Pengguna yang Diblokir</h3>
+                <div class="banned-list" id="bannedUsersList">
+                    <!-- Daftar pengguna banned akan dimuat di sini -->
+                </div>
+            </div>
+            
+            <div class="owner-section">
+                <h3><i class="fas fa-envelope"></i> Pesan Banding</h3>
+                <div class="appeal-list" id="appealsList">
+                    <!-- Daftar pesan banding akan dimuat di sini -->
+                </div>
+            </div>
+            
+            <div class="owner-section">
+                <h3><i class="fas fa-users"></i> Pengguna Online</h3>
+                <div class="online-list" id="onlineUsersList">
+                    <!-- Daftar pengguna online akan dimuat di sini -->
+                </div>
+            </div>
+            
+            <div class="owner-info">
+                <h4><i class="fas fa-info-circle"></i> Informasi Login Owner</h4>
+                <p>IP Address: <span id="ownerIP">Loading...</span></p>
+                <p>Login Pertama: <span id="ownerFirstLogin">Loading...</span></p>
+            </div>
+        </div>
+        
+        <!-- Panel Profil -->
+        <div id="profilePanel" class="profile-panel hidden">
+            <div class="profile-header">
+                <h2><i class="fas fa-user"></i> Profil Anda</h2>
+                <button id="closeProfileBtn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="profile-content">
+                <div class="avatar-upload">
+                    <div class="avatar-preview" id="avatarPreview">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <input type="file" id="avatarInput" accept="image/*" hidden>
+                    <button id="changeAvatarBtn" class="upload-btn">Ubah Foto</button>
+                </div>
+                <div class="profile-info">
+                    <div class="info-item">
+                        <label>Username:</label>
+                        <p id="profileUsername"></p>
+                    </div>
+                    <div class="info-item">
+                        <label>Status:</label>
+                        <p id="profileStatus">Online</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Bergabung:</label>
+                        <p id="profileJoined">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel Settings -->
+        <div id="settingsPanel" class="settings-panel hidden">
+            <div class="settings-header">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <button id="closeSettingsBtn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <h3><i class="fas fa-bell"></i> Notifikasi</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="notifToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <h3><i class="fas fa-palette"></i> Tema</h3>
+                    <select id="themeSelect">
+                        <option value="light">Terang</option>
+                        <option value="dark">Gelap</option>
+                        <option value="green">Hijau WhatsApp</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <h3><i class="fas fa-database"></i> Penyimpanan</h3>
+                    <button id="clearStorageBtn" class="danger-btn">Hapus Data Lokal</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Daftar Kontak/Chat -->
+        <div class="contacts-container" id="contactsContainer">
+            <div class="contacts-search">
+                <input type="text" id="searchContacts" placeholder="Cari kontak atau pesan...">
+            </div>
+            <div class="contacts-list" id="contactsList">
+                <!-- Kontak online akan dimuat di sini -->
+            </div>
+        </div>
+        
+        <!-- Area Chat -->
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-placeholder" id="chatPlaceholder">
+                <div class="placeholder-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <h2>WhatsApp Lite</h2>
+                <p>Pilih kontak untuk memulai percakapan</p>
+                <p class="hint">Hanya pengguna online yang ditampilkan</p>
+            </div>
+            
+<!-- Tambahkan di chat-container, setelah chat-placeholder -->
+<div class="global-chat-header hidden" id="globalChatHeader">
+    <div class="contact-back">
+        <button id="backFromGlobal"><i class="fas fa-arrow-left"></i></button>
+    </div>
+    <div class="contact-info-chat">
+        <div class="contact-avatar-chat global-avatar">
+            <i class="fas fa-globe"></i>
+        </div>
+        <div>
+            <h4>CHAT GLOBAL || PUBLIC ROOM🎟️</h4>
+            <p id="globalOnlineCount">0 online</p>
+        </div>
+    </div>
+    <div class="global-info">
+        <button class="icon-btn" id="globalInfoBtn">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+</div>
+
+            <!-- Header Chat Kontak -->
+            <div class="chat-header-contact hidden" id="chatHeader">
+                <div class="contact-back">
+                    <button id="backToContacts"><i class="fas fa-arrow-left"></i></button>
+                </div>
+                <div class="contact-info-chat">
+                    <div class="contact-avatar-chat">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h4 id="chatContactName"></h4>
+                        <p id="chatContactStatus">online</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Area Pesan -->
+            <div class="messages-container hidden" id="messagesContainer">
+                <div class="messages" id="messagesList">
+                    <!-- Pesan akan dimuat di sini -->
+                </div>
+            </div>
+            
+            <!-- Input Pesan -->
+            <div class="message-input-container hidden" id="messageInputContainer">
+                <div class="input-actions">
+                    <button class="input-btn" id="emojiBtn">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <button class="input-btn" id="attachBtn">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                </div>
+                <div class="message-input">
+                    <input type="text" id="messageInput" placeholder="Ketik pesan...">
+                </div>
+                <div class="send-button">
+                    <button id="sendMessageBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <!-- Input file tersembunyi -->
+                <input type="file" id="fileInput" accept="image/*" hidden>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Notifikasi -->
+    <div id="notificationModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Notifikasi</h3>
+                <button id="closeModalBtn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="modalOkBtn" class="modal-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
+    <!-- File JavaScript -->
+    <script src="index.js"></script>
+</body>
+</html>
